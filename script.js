@@ -26,7 +26,17 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // Create RegExp object from pattern input
-            const regex = new RegExp(`^${patternValue}$`);
+            // HTML pattern attribute logic wraps the pattern in ^(?: )$ and uses 'u' flag
+            // This ensures "a|b" matches "a" or "b", not "starts with a" or "ends with b"
+            let regex;
+            try {
+                // Try with 'v' flag first (newer standard)
+                regex = new RegExp(`^(?:${patternValue})$`, 'v');
+            } catch (e) {
+                // Fallback to 'u' flag
+                regex = new RegExp(`^(?:${patternValue})$`, 'u');
+            }
+
             const isValid = regex.test(testValue);
 
             // Update the UI
@@ -36,14 +46,17 @@ document.addEventListener('DOMContentLoaded', function () {
             // Set explanation text
             if (isValid) {
                 explanation.textContent = `"${testValue}" matches the pattern`;
+                explanation.className = 'valid-text';
             } else {
                 explanation.textContent = `"${testValue}" does not match the pattern`;
+                explanation.className = 'invalid-text';
             }
         } catch (error) {
             // Handle invalid regex
             validityResult.textContent = 'Error';
             validityResult.className = 'invalid';
             explanation.textContent = 'Invalid regex pattern: ' + error.message;
+            explanation.className = 'invalid-text';
         }
     }
 
@@ -114,6 +127,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Validate with the new values
             validatePattern();
+
+            // Highlight the tester container briefly
+            const testerContainer = document.querySelector('.tester-container');
+            testerContainer.classList.add('highlight-pulse');
+            setTimeout(() => {
+                testerContainer.classList.remove('highlight-pulse');
+            }, 1000);
+        });
+    });
+
+    // Copy buttons functionality
+    const copyButtons = document.querySelectorAll('.copy-btn');
+
+    copyButtons.forEach((button) => {
+        button.addEventListener('click', function() {
+            const codeElement = this.parentElement.querySelector('code');
+            const textToCopy = codeElement.textContent;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = this.textContent;
+                this.textContent = 'Copied!';
+                setTimeout(() => {
+                    this.textContent = originalText;
+                }, 2000);
+            });
         });
     });
 
