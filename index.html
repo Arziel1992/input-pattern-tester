@@ -15,58 +15,58 @@
     </header>
 
     <main>
-        <section class="container">
+        <section class="container" aria-label="Input Types and Pattern Support">
             <div class="input-types-section">
                 <h2>Input Types & Pattern Support</h2>
                 <div class="input-types-grid">
                     <div class="input-type-card" data-supports="true">
-                        <h3>text</h3>
-                        <input type="text" placeholder="Text input" pattern="[A-Za-z]{3,}">
+                        <h3><label for="input-text">text</label></h3>
+                        <input id="input-text" type="text" placeholder="Text input" pattern="[A-Za-z]{3,}">
                         <p>Supports pattern attribute ✓</p>
                     </div>
                     <div class="input-type-card" data-supports="true">
-                        <h3>search</h3>
-                        <input type="search" placeholder="Search input" pattern="[A-Za-z]{3,}">
+                        <h3><label for="input-search">search</label></h3>
+                        <input id="input-search" type="search" placeholder="Search input" pattern="[A-Za-z]{3,}">
                         <p>Supports pattern attribute ✓</p>
                     </div>
                     <div class="input-type-card" data-supports="true">
-                        <h3>tel</h3>
-                        <input type="tel" placeholder="Telephone input" pattern="[0-9]{10}">
+                        <h3><label for="input-tel">tel</label></h3>
+                        <input id="input-tel" type="tel" placeholder="Telephone input" pattern="[0-9]{10}">
                         <p>Supports pattern attribute ✓</p>
                     </div>
                     <div class="input-type-card" data-supports="true">
-                        <h3>url</h3>
-                        <input type="url" placeholder="URL input" pattern="https://.*">
+                        <h3><label for="input-url">url</label></h3>
+                        <input id="input-url" type="url" placeholder="URL input" pattern="https://.*">
                         <p>Supports pattern attribute ✓</p>
                     </div>
                     <div class="input-type-card" data-supports="true">
-                        <h3>email</h3>
-                        <input type="email" placeholder="Email input" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                        <h3><label for="input-email">email</label></h3>
+                        <input id="input-email" type="email" placeholder="Email input" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
                         <p>Supports pattern attribute ✓</p>
                     </div>
                     <div class="input-type-card" data-supports="true">
-                        <h3>password</h3>
-                        <input type="password" placeholder="Password input" pattern=".{8,}">
+                        <h3><label for="input-password">password</label></h3>
+                        <input id="input-password" type="password" placeholder="Password input" pattern=".{8,}">
                         <p>Supports pattern attribute ✓</p>
                     </div>
                     <div class="input-type-card" data-supports="false">
-                        <h3>number</h3>
-                        <input type="number" placeholder="Number input">
+                        <h3><label for="input-number">number</label></h3>
+                        <input id="input-number" type="number" placeholder="Number input">
                         <p>Does not support pattern ✗</p>
                     </div>
                     <div class="input-type-card" data-supports="false">
-                        <h3>date</h3>
-                        <input type="date">
+                        <h3><label for="input-date">date</label></h3>
+                        <input id="input-date" type="date">
                         <p>Does not support pattern ✗</p>
                     </div>
                     <div class="input-type-card" data-supports="false">
-                        <h3>time</h3>
-                        <input type="time">
+                        <h3><label for="input-time">time</label></h3>
+                        <input id="input-time" type="time">
                         <p>Does not support pattern ✗</p>
                     </div>
                     <div class="input-type-card" data-supports="false">
-                        <h3>color</h3>
-                        <input type="color">
+                        <h3><label for="input-color">color</label></h3>
+                        <input id="input-color" type="color">
                         <p>Does not support pattern ✗</p>
                     </div>
                 </div>
@@ -77,99 +77,136 @@
                 <div class="tester-container">
                     <div class="pattern-input">
                         <label for="pattern">Pattern:</label>
-                        <input type="text" id="pattern" placeholder="Enter regex pattern (without / /)" value="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}">
+                        <input type="text" id="pattern" placeholder="Enter regex pattern (without / /)" value="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" aria-describedby="pattern-desc">
+                        <small id="pattern-desc">Enter the regex pattern as you would in the HTML pattern attribute.</small>
                     </div>
                     <div class="test-input">
                         <label for="test-text">Test Text:</label>
                         <input type="text" id="test-text" placeholder="Enter text to test against pattern" value="test@example.com">
                     </div>
-                    <div class="result-container">
+                    <div class="result-container" aria-live="polite">
                         <p>Valid: <span id="validity-result" class="valid">True</span></p>
-                        <p>Explanation: <span id="explanation">Valid email format</span></p>
+                        <p>Explanation: <span id="explanation" class="valid-text">Valid email format</span></p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="cheat-sheet">
+        <section class="cheat-sheet" aria-label="Pattern Cheat Sheet">
             <h2>Pattern Cheat Sheet</h2>
             <div class="cheat-sheet-grid">
                 <div class="cheat-sheet-card">
                     <h3>Email Validation</h3>
                     <code>[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$</code>
                     <p>Matches standard email format like: example@domain.com</p>
-                    <button class="try-it" data-pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">Try it</button>
+                    <div class="card-actions">
+                        <button class="try-it" data-pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">Try it</button>
+                        <button class="copy-btn">Copy</button>
+                    </div>
                 </div>
                 <div class="cheat-sheet-card">
                     <h3>Phone Number (10 digits)</h3>
                     <code>[0-9]{10}</code>
                     <p>Matches 10 digit numbers without spaces or dashes</p>
-                    <button class="try-it" data-pattern="[0-9]{10}">Try it</button>
+                    <div class="card-actions">
+                        <button class="try-it" data-pattern="[0-9]{10}">Try it</button>
+                        <button class="copy-btn">Copy</button>
+                    </div>
                 </div>
                 <div class="cheat-sheet-card">
                     <h3>Phone with Format</h3>
                     <code>\(\d{3}\) \d{3}-\d{4}</code>
                     <p>Matches phone format: (123) 456-7890</p>
-                    <button class="try-it" data-pattern="\(\d{3}\) \d{3}-\d{4}">Try it</button>
+                    <div class="card-actions">
+                        <button class="try-it" data-pattern="\(\d{3}\) \d{3}-\d{4}">Try it</button>
+                        <button class="copy-btn">Copy</button>
+                    </div>
                 </div>
                 <div class="cheat-sheet-card">
                     <h3>Date (DD/MM/YYYY)</h3>
                     <code>(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\d{4}</code>
                     <p>Matches dates in format: 25/12/2023</p>
-                    <button class="try-it" data-pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\d{4}">Try it</button>
+                    <div class="card-actions">
+                        <button class="try-it" data-pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\d{4}">Try it</button>
+                        <button class="copy-btn">Copy</button>
+                    </div>
                 </div>
                 <div class="cheat-sheet-card">
                     <h3>Date (YYYY-MM-DD)</h3>
                     <code>\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])</code>
                     <p>Matches ISO date format: 2023-12-25</p>
-                    <button class="try-it" data-pattern="\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])">Try it</button>
+                    <div class="card-actions">
+                        <button class="try-it" data-pattern="\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])">Try it</button>
+                        <button class="copy-btn">Copy</button>
+                    </div>
                 </div>
                 <div class="cheat-sheet-card">
                     <h3>Time (24 hour)</h3>
                     <code>([01][0-9]|2[0-3]):[0-5][0-9]</code>
                     <p>Matches 24-hour time format: 14:30</p>
-                    <button class="try-it" data-pattern="([01][0-9]|2[0-3]):[0-5][0-9]">Try it</button>
+                    <div class="card-actions">
+                        <button class="try-it" data-pattern="([01][0-9]|2[0-3]):[0-5][0-9]">Try it</button>
+                        <button class="copy-btn">Copy</button>
+                    </div>
                 </div>
                 <div class="cheat-sheet-card">
                     <h3>Time (12 hour)</h3>
                     <code>(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)</code>
                     <p>Matches 12-hour format: 02:30 PM</p>
-                    <button class="try-it" data-pattern="(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)">Try it</button>
+                    <div class="card-actions">
+                        <button class="try-it" data-pattern="(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)">Try it</button>
+                        <button class="copy-btn">Copy</button>
+                    </div>
                 </div>
                 <div class="cheat-sheet-card">
                     <h3>URL</h3>
                     <code>https?://[a-z0-9.-]+\.[a-z]{2,}</code>
                     <p>Matches URLs like: https://example.com</p>
-                    <button class="try-it" data-pattern="https?://[a-z0-9.-]+\.[a-z]{2,}">Try it</button>
+                    <div class="card-actions">
+                        <button class="try-it" data-pattern="https?://[a-z0-9.-]+\.[a-z]{2,}">Try it</button>
+                        <button class="copy-btn">Copy</button>
+                    </div>
                 </div>
                 <div class="cheat-sheet-card">
                     <h3>Password (Strong)</h3>
                     <code>(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}</code>
                     <p>Requires at least 8 chars with lowercase, uppercase and number</p>
-                    <button class="try-it" data-pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">Try it</button>
+                    <div class="card-actions">
+                        <button class="try-it" data-pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">Try it</button>
+                        <button class="copy-btn">Copy</button>
+                    </div>
                 </div>
                 <div class="cheat-sheet-card">
                     <h3>Username</h3>
                     <code>[a-zA-Z0-9_-]{3,16}</code>
                     <p>3-16 characters, letters, numbers, underscore, hyphen</p>
-                    <button class="try-it" data-pattern="[a-zA-Z0-9_-]{3,16}">Try it</button>
+                    <div class="card-actions">
+                        <button class="try-it" data-pattern="[a-zA-Z0-9_-]{3,16}">Try it</button>
+                        <button class="copy-btn">Copy</button>
+                    </div>
                 </div>
                 <div class="cheat-sheet-card">
                     <h3>Hex Color Code</h3>
                     <code>#[a-fA-F0-9]{6}</code>
                     <p>Matches hex color codes like: #FF5733</p>
-                    <button class="try-it" data-pattern="#[a-fA-F0-9]{6}">Try it</button>
+                    <div class="card-actions">
+                        <button class="try-it" data-pattern="#[a-fA-F0-9]{6}">Try it</button>
+                        <button class="copy-btn">Copy</button>
+                    </div>
                 </div>
                 <div class="cheat-sheet-card">
                     <h3>IP Address</h3>
                     <code>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)</code>
                     <p>Matches IP addresses like: 192.168.1.1</p>
-                    <button class="try-it" data-pattern="((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)">Try it</button>
+                    <div class="card-actions">
+                        <button class="try-it" data-pattern="((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)">Try it</button>
+                        <button class="copy-btn">Copy</button>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="regex-guide">
+        <section class="regex-guide" aria-label="Regex Quick Reference">
             <h2>Regex Quick Reference</h2>
             <div class="guide-grid">
                 <div class="guide-card">
