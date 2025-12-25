@@ -1,0 +1,485 @@
+:root {
+    --primary-color: #4a6fa5;
+    --secondary-color: #166088;
+    --accent-color: #0077b6; /* Darkened from #00a5cf for WCAG AA (4.5:1 with white) */
+    --light-color: #f5f5f5;
+    --dark-color: #333;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --border-radius: 8px;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --focus-ring: 0 0 0 3px rgba(0, 165, 207, 0.5);
+    --transition: all 0.3s ease;
+    --container-gap: 2rem;
+    --section-spacing: 3rem;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark-color);
+    background-color: #f8f9fa;
+    margin-block: 0;
+    margin-inline: 0;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding-block: 2rem;
+    padding-inline: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    h1 {
+        font-size: 2.5rem;
+        margin-block-end: 0.5rem;
+    }
+
+    p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+}
+
+main {
+    max-inline-size: 1200px;
+    margin-inline: auto;
+    padding-block: 2rem;
+    padding-inline: 1rem;
+}
+
+section {
+    margin-block-end: var(--section-spacing);
+}
+
+h2 {
+    color: var(--secondary-color);
+    margin-block-end: 1.5rem;
+    padding-block-end: 0.5rem;
+    border-block-end: 2px solid var(--accent-color);
+}
+
+h3 {
+    color: var(--secondary-color);
+    margin-block-end: 1rem;
+}
+
+/*
+ * Modern Grid Layout with Template Areas
+ * Using Logical Properties for spacing
+ */
+.container {
+    display: grid;
+    grid-template-areas: "inputs tester";
+    grid-template-columns: 2fr 1fr;
+    gap: var(--container-gap);
+    margin-block-end: var(--section-spacing);
+    place-content: start stretch; /* Demonstrate place-content */
+}
+
+.input-types-section {
+    grid-area: inputs;
+    /* Container Query Context */
+    container-name: input-section;
+    container-type: inline-size;
+}
+
+.pattern-tester {
+    grid-area: tester;
+}
+
+.input-types-section,
+.pattern-tester {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    /* Educational visual indicators for Legend */
+    border: 1px solid #663399; /* Matches Legend Grid Area */
+    box-shadow: 0 4px 6px rgba(102, 51, 153, 0.1);
+}
+
+/* Input Types Grid */
+.input-types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 130px), 1fr));
+    gap: 1rem;
+    /* justify-items: stretch; implied by grid default */
+}
+
+/* Card Component with Nesting */
+.input-type-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    text-align: center;
+    transition: var(--transition);
+    display: flex;
+    flex-flow: column nowrap; /* Demonstrate flex-flow */
+    height: 100%;
+
+    /* Educational visual indicators for Legend */
+    border-color: #ffd700; /* Matches Legend Flex Item */
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--card-shadow);
+    }
+
+    h3 {
+        font-size: 1rem;
+        margin-block-end: 0.5rem;
+    }
+
+    input {
+        width: 100%; /* Fallback */
+        inline-size: 100%;
+        margin-block: 0.5rem;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    p {
+        font-size: 0.8rem;
+        margin-block-start: auto; /* Push to bottom */
+    }
+
+    &[data-supports='true'] p {
+        color: var(--success-color);
+    }
+
+    &[data-supports='false'] p {
+        color: var(--danger-color);
+    }
+}
+
+/* Pattern Tester */
+.tester-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: box-shadow 0.3s ease;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+}
+
+.highlight-pulse {
+    animation: pulse 1s ease-in-out;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 165, 207, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 165, 207, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 165, 207, 0); }
+}
+
+.pattern-input,
+.test-input {
+    margin-block-end: 1rem;
+}
+
+label {
+    display: block;
+    margin-block-end: 0.5rem;
+    font-weight: bold;
+}
+
+input[type='text'] {
+    width: 100%;
+    inline-size: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 1rem;
+
+    &:focus {
+        outline: none;
+        box-shadow: var(--focus-ring);
+        border-color: var(--accent-color);
+    }
+}
+
+small {
+    display: block;
+    margin-block-start: 0.5rem;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.result-container {
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    min-height: 100px; /* Logical min-block-size? 100px is clearer here for now */
+    min-block-size: 100px;
+}
+
+.valid {
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+.invalid {
+    color: var(--danger-color);
+    font-weight: bold;
+}
+
+.valid-text {
+    color: var(--success-color);
+}
+
+.invalid-text {
+    color: var(--danger-color);
+}
+
+/* Cheat Sheet Grid using min-content/max-content where appropriate */
+.cheat-sheet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 1.5rem;
+}
+
+.cheat-sheet-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+
+    /* Container Query Context */
+    container-name: card;
+    container-type: inline-size;
+
+    &:hover {
+        transform: translateY(-5px);
+    }
+
+    code {
+        display: block;
+        background-color: #f5f5f5;
+        padding: 0.75rem;
+        margin-block: 0.75rem;
+        border-radius: 4px;
+        font-family: monospace;
+        word-break: break-all;
+        font-size: 0.9rem;
+        border-inline-start: 3px solid var(--accent-color);
+    }
+
+    p {
+        margin-block-end: 1rem;
+        font-size: 0.9rem;
+        flex-grow: 1;
+    }
+}
+
+/* Container Query Example: Adjust layout inside card if it gets too narrow */
+@container card (max-width: 300px) {
+    .card-actions {
+        flex-direction: column;
+    }
+    .cheat-sheet-card code {
+        font-size: 0.8rem;
+    }
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-block-start: auto;
+}
+
+button {
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: var(--transition);
+    font-weight: 500;
+
+    &:focus {
+        outline: none;
+        box-shadow: var(--focus-ring);
+    }
+
+    &.try-it {
+        background-color: var(--accent-color);
+        color: white;
+        flex: 2;
+
+        &:hover {
+            background-color: var(--secondary-color);
+        }
+    }
+
+    &.copy-btn {
+        background-color: #e9ecef;
+        color: var(--dark-color);
+        flex: 1;
+
+        &:hover {
+            background-color: #ced4da;
+        }
+    }
+}
+
+/* Regex Guide */
+.guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+    gap: 1.5rem;
+}
+
+.guide-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+
+    ul {
+        list-style-type: none;
+    }
+
+    li {
+        margin-block-end: 0.5rem;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+    }
+
+    code {
+        background-color: #f5f5f5;
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-family: monospace;
+        color: var(--secondary-color);
+        font-weight: bold;
+        white-space: nowrap;
+    }
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--primary-color);
+    color: white;
+    margin-block-start: 2rem;
+
+    a {
+        color: white;
+        text-decoration: underline;
+    }
+}
+
+/*
+ * Responsive Design
+ * Using Grid Areas to re-flow content
+ */
+@media (max-width: 768px) {
+    .container {
+        grid-template-areas:
+            "inputs"
+            "tester";
+        grid-template-columns: 1fr;
+    }
+
+    .input-types-grid {
+        /* Even smaller minimum width for mobile */
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    }
+
+    .cheat-sheet-grid,
+    .guide-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* Tooltips */
+[data-tooltip] {
+    position: relative;
+    cursor: help;
+    border-block-end: 1px dotted var(--accent-color);
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    inset-block-end: 100%;
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    background-color: var(--dark-color);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+    margin-block-end: 5px;
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+}
+
+/* Legend System */
+.legend-container {
+    background-color: var(--light-color);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-block-end: 2rem;
+    border-inline-start: 4px solid var(--accent-color);
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-inline-end: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.legend-marker {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.legend-marker.grid-area { background-color: #e6e6fa; border: 1px solid #663399; } /* Lavender */
+.legend-marker.flex-item { background-color: #fffacd; border: 1px solid #ffd700; } /* LemonChiffon */
+
+
+/* Links to CSS-Tricks */
+.learn-more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    color: var(--accent-color);
+    text-decoration: none;
+    margin-block-start: 0.5rem;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    &::after {
+        content: "↗";
+    }
+}
