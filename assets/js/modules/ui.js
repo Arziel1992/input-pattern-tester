@@ -1,63 +1,21 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Pattern tester functionality
+import { validatePattern } from './validation.js';
+
+/**
+ * Initializes UI event listeners and functionality.
+ */
+export function initUI() {
     const patternInput = document.getElementById('pattern');
     const testText = document.getElementById('test-text');
     const validityResult = document.getElementById('validity-result');
     const explanation = document.getElementById('explanation');
 
-    // Initial validation check
-    validatePattern();
+    if (patternInput && testText) {
+        // Initial validation check
+        validatePattern(patternInput, testText, validityResult, explanation);
 
-    // Add event listeners for live validation
-    patternInput.addEventListener('input', validatePattern);
-    testText.addEventListener('input', validatePattern);
-
-    // Function to validate pattern against test text
-    function validatePattern() {
-        try {
-            const patternValue = patternInput.value;
-            const testValue = testText.value;
-
-            if (!patternValue || !testValue) {
-                validityResult.textContent = 'N/A';
-                validityResult.className = '';
-                explanation.textContent = 'Enter both pattern and test text';
-                return;
-            }
-
-            // Create RegExp object from pattern input
-            // HTML pattern attribute logic wraps the pattern in ^(?: )$ and uses 'u' flag
-            // This ensures "a|b" matches "a" or "b", not "starts with a" or "ends with b"
-            let regex;
-            try {
-                // Try with 'v' flag first (newer standard)
-                regex = new RegExp(`^(?:${patternValue})$`, 'v');
-            } catch (e) {
-                // Fallback to 'u' flag
-                regex = new RegExp(`^(?:${patternValue})$`, 'u');
-            }
-
-            const isValid = regex.test(testValue);
-
-            // Update the UI
-            validityResult.textContent = isValid ? 'True' : 'False';
-            validityResult.className = isValid ? 'valid' : 'invalid';
-
-            // Set explanation text
-            if (isValid) {
-                explanation.textContent = `"${testValue}" matches the pattern`;
-                explanation.className = 'valid-text';
-            } else {
-                explanation.textContent = `"${testValue}" does not match the pattern`;
-                explanation.className = 'invalid-text';
-            }
-        } catch (error) {
-            // Handle invalid regex
-            validityResult.textContent = 'Error';
-            validityResult.className = 'invalid';
-            explanation.textContent = 'Invalid regex pattern: ' + error.message;
-            explanation.className = 'invalid-text';
-        }
+        // Add event listeners for live validation
+        patternInput.addEventListener('input', () => validatePattern(patternInput, testText, validityResult, explanation));
+        testText.addEventListener('input', () => validatePattern(patternInput, testText, validityResult, explanation));
     }
 
     // Try it buttons functionality
@@ -126,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             // Validate with the new values
-            validatePattern();
+            validatePattern(patternInput, testText, validityResult, explanation);
 
             // Highlight the tester container briefly
             const testerContainer = document.querySelector('.tester-container');
@@ -191,4 +149,4 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-});
+}

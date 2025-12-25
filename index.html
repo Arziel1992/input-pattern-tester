@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTML Input Pattern Tester</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
 
 <body>
@@ -15,11 +15,27 @@
     </header>
 
     <main>
+        <section class="legend-container" aria-label="Educational Legend">
+            <h3>Layout Legend & Controls</h3>
+            <div class="legend-item">
+                <span class="legend-marker grid-area"></span>
+                <span>Grid Area Layout</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker flex-item"></span>
+                <span>Flexbox Item</span>
+            </div>
+            <p><small>Hover over elements to see layout tooltips. Adjust window size to see Container Queries in action.</small></p>
+        </section>
+
         <section class="container" aria-label="Input Types and Pattern Support">
-            <div class="input-types-section">
-                <h2>Input Types & Pattern Support</h2>
+            <div class="input-types-section" style="grid-area: inputs;" data-tooltip="grid-area: inputs">
+                <h2>
+                    Input Types & Pattern Support
+                    <a href="https://css-tricks.com/snippets/css/complete-guide-grid/#aa-grid-template-areas" target="_blank" class="learn-more-link" title="Learn about Grid Areas">Grid Areas</a>
+                </h2>
                 <div class="input-types-grid">
-                    <div class="input-type-card" data-supports="true">
+                    <div class="input-type-card" data-supports="true" data-tooltip="display: flex; flex-direction: column;">
                         <h3><label for="input-text">text</label></h3>
                         <input id="input-text" type="text" placeholder="Text input" pattern="[A-Za-z]{3,}">
                         <p>Supports pattern attribute ✓</p>
@@ -72,8 +88,11 @@
                 </div>
             </div>
 
-            <div class="pattern-tester">
-                <h2>Pattern Tester</h2>
+            <div class="pattern-tester" style="grid-area: tester;" data-tooltip="grid-area: tester">
+                <h2>
+                    Pattern Tester
+                    <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" class="learn-more-link">Flexbox Guide</a>
+                </h2>
                 <div class="tester-container">
                     <div class="pattern-input">
                         <label for="pattern">Pattern:</label>
@@ -93,9 +112,13 @@
         </section>
 
         <section class="cheat-sheet" aria-label="Pattern Cheat Sheet">
-            <h2>Pattern Cheat Sheet</h2>
+            <h2>
+                Pattern Cheat Sheet
+                <small style="font-size: 0.6em; font-weight: normal; margin-inline-start: 1rem;">(Uses Container Queries)</small>
+                <a href="https://css-tricks.com/css-container-queries/" target="_blank" class="learn-more-link">Learn Container Queries</a>
+            </h2>
             <div class="cheat-sheet-grid">
-                <div class="cheat-sheet-card">
+                <div class="cheat-sheet-card" data-tooltip="@container card (max-width: 300px)">
                     <h3>Email Validation</h3>
                     <code>[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$</code>
                     <p>Matches standard email format like: example@domain.com</p>
@@ -257,7 +280,7 @@
         <p>Created for COS10026 - Web Development and Design at Swinburne University</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script type="module" src="assets/js/main.js"></script>
 </body>
 
 </html>
