@@ -4,260 +4,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Input Pattern Tester</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Input Pattern Tester - Regex Validator & Tester</title>
+    <meta name="description" content="Interactive regex pattern tester with real-time match highlighting, capture group visualization, and code generation.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Input Pattern Tester">
+    <meta property="og:description" content="Test and validate regular expressions with real-time feedback">
+    <meta property="og:image" content="assets/logo.svg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Tailwind v4 CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#e6f7e6', 100: '#ccefcc', 200: '#99df99', 300: '#66cf66',
+                            400: '#33bf33', 500: '#028f00', 600: '#027200', 700: '#015500',
+                            800: '#013800', 900: '#001b00', 950: '#000e00'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Flowbite -->
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
 
-<body>
-    <header>
-        <h1>HTML Input Pattern Tester</h1>
-        <p>Learn and experiment with the pattern attribute for HTML inputs</p>
-    </header>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Navigation (matching CSS Layout Tester homepage) -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="flex items-center gap-3">
+                        <img src="assets/logo.svg" alt="Input Pattern Tester" class="h-8 w-8">
+                        <span class="font-semibold text-gray-900 text-lg">Input Pattern Tester</span>
+                    </a>
+                </div>
 
-    <main>
-        <section class="container" aria-label="Input Types and Pattern Support">
-            <div class="input-types-section">
-                <h2>Input Types & Pattern Support</h2>
-                <div class="input-types-grid">
-                    <div class="input-type-card" data-supports="true">
-                        <h3><label for="input-text">text</label></h3>
-                        <input id="input-text" type="text" placeholder="Text input" pattern="[A-Za-z]{3,}">
-                        <p>Supports pattern attribute ✓</p>
+                <div class="flex items-center gap-4">
+                    <!-- Language Dropdown -->
+                    <button id="lang-dropdown-btn" data-dropdown-toggle="lang-dropdown" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                        </svg>
+                        <span id="current-lang">EN</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="lang-dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-32">
+                        <ul class="py-2 text-sm text-gray-700">
+                            <li><button onclick="setLanguage('en')" class="w-full text-left px-4 py-2 hover:bg-gray-100">English</button></li>
+                            <li><button onclick="setLanguage('es')" class="w-full text-left px-4 py-2 hover:bg-gray-100">Español</button></li>
+                        </ul>
                     </div>
-                    <div class="input-type-card" data-supports="true">
-                        <h3><label for="input-search">search</label></h3>
-                        <input id="input-search" type="search" placeholder="Search input" pattern="[A-Za-z]{3,}">
-                        <p>Supports pattern attribute ✓</p>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 pt-24 pb-12 px-4 max-w-7xl mx-auto w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Left: Pattern & Test -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Pattern Input -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h1 class="text-2xl font-bold text-gray-900 mb-6">Regex Pattern Tester</h1>
+
+                    <!-- Pattern -->
+                    <div class="mb-5">
+                        <label class="block mb-2 text-sm font-medium text-gray-700">Pattern</label>
+                        <div class="flex items-stretch">
+                            <span class="flex items-center px-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg text-gray-500 font-mono">/</span>
+                            <input type="text" id="pattern-input"
+                                   class="flex-1 px-3 py-2.5 border border-gray-300 text-sm font-mono focus:ring-2 focus:ring-primary-500 focus:border-primary-500 min-w-0"
+                                   placeholder="Enter your regex pattern...">
+                            <span id="flags-display" class="flex items-center px-3 bg-gray-100 border border-l-0 border-gray-300 rounded-r-lg text-gray-500 font-mono">/g</span>
+                        </div>
+                        <div id="pattern-status" class="mt-2 text-sm hidden"></div>
                     </div>
-                    <div class="input-type-card" data-supports="true">
-                        <h3><label for="input-tel">tel</label></h3>
-                        <input id="input-tel" type="tel" placeholder="Telephone input" pattern="[0-9]{10}">
-                        <p>Supports pattern attribute ✓</p>
+
+                    <!-- Flags -->
+                    <div class="mb-5">
+                        <div class="flex items-center gap-2 mb-2">
+                            <label class="text-sm font-medium text-gray-700">Flags</label>
+                            <button onclick="openFlagsModal()" class="text-primary-600 hover:text-primary-700">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="flex flex-wrap gap-4">
+                            <label class="inline-flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="flag-g" checked class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm font-mono text-gray-700">g</span>
+                                <span class="text-xs text-gray-500">global</span>
+                            </label>
+                            <label class="inline-flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="flag-i" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm font-mono text-gray-700">i</span>
+                                <span class="text-xs text-gray-500">case-insensitive</span>
+                            </label>
+                            <label class="inline-flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="flag-m" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm font-mono text-gray-700">m</span>
+                                <span class="text-xs text-gray-500">multiline</span>
+                            </label>
+                            <label class="inline-flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="flag-s" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm font-mono text-gray-700">s</span>
+                                <span class="text-xs text-gray-500">dotall</span>
+                            </label>
+                            <label class="inline-flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="flag-u" class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm font-mono text-gray-700">u</span>
+                                <span class="text-xs text-gray-500">unicode</span>
+                            </label>
+                        </div>
                     </div>
-                    <div class="input-type-card" data-supports="true">
-                        <h3><label for="input-url">url</label></h3>
-                        <input id="input-url" type="url" placeholder="URL input" pattern="https://.*">
-                        <p>Supports pattern attribute ✓</p>
+
+                    <!-- Test Text -->
+                    <div class="mb-5">
+                        <label class="block mb-2 text-sm font-medium text-gray-700">Test Text</label>
+                        <textarea id="test-text-input" rows="4"
+                                  class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm font-mono focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-y"
+                                  placeholder="Enter text to test against..."></textarea>
                     </div>
-                    <div class="input-type-card" data-supports="true">
-                        <h3><label for="input-email">email</label></h3>
-                        <input id="input-email" type="email" placeholder="Email input" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-                        <p>Supports pattern attribute ✓</p>
+
+                    <!-- Matches -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="text-sm font-medium text-gray-700">Matches</label>
+                            <span id="match-count" class="text-xs font-medium text-primary-600 bg-primary-100 px-2 py-1 rounded-full">0</span>
+                        </div>
+                        <div id="matches-display" class="test-text-display border border-gray-200">
+                            <span class="text-gray-400">No matches found</span>
+                        </div>
                     </div>
-                    <div class="input-type-card" data-supports="true">
-                        <h3><label for="input-password">password</label></h3>
-                        <input id="input-password" type="password" placeholder="Password input" pattern=".{8,}">
-                        <p>Supports pattern attribute ✓</p>
+                </div>
+
+                <!-- Replace Mode -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900">Replace Mode</h2>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="replace-toggle" class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                        </label>
                     </div>
-                    <div class="input-type-card" data-supports="false">
-                        <h3><label for="input-number">number</label></h3>
-                        <input id="input-number" type="number" placeholder="Number input">
-                        <p>Does not support pattern ✗</p>
+                    <div id="replace-section" class="hidden space-y-4">
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-700">Replacement String</label>
+                            <input type="text" id="replace-input"
+                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-mono focus:ring-2 focus:ring-primary-500"
+                                   placeholder="Enter replacement ($1, $2 for groups)...">
+                        </div>
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-700">Result</label>
+                            <div id="replace-result" class="test-text-display border border-gray-200">
+                                <span class="text-gray-400">Enter replacement string</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="input-type-card" data-supports="false">
-                        <h3><label for="input-date">date</label></h3>
-                        <input id="input-date" type="date">
-                        <p>Does not support pattern ✗</p>
+                </div>
+
+                <!-- Code Generation -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Code Generation</h2>
+                    <div class="flex gap-2 mb-4">
+                        <button id="code-js" class="px-4 py-2 text-sm font-medium bg-primary-100 text-primary-700 rounded-lg">JavaScript</button>
+                        <button id="code-py" class="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg">Python</button>
+                        <button id="code-php" class="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg">PHP</button>
                     </div>
-                    <div class="input-type-card" data-supports="false">
-                        <h3><label for="input-time">time</label></h3>
-                        <input id="input-time" type="time">
-                        <p>Does not support pattern ✗</p>
-                    </div>
-                    <div class="input-type-card" data-supports="false">
-                        <h3><label for="input-color">color</label></h3>
-                        <input id="input-color" type="color">
-                        <p>Does not support pattern ✗</p>
+                    <div class="relative">
+                        <button id="copy-code" class="absolute top-3 right-3 px-3 py-1.5 text-xs font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 rounded border border-gray-700 transition-colors">Copy</button>
+                        <pre id="code-output" class="code-block">// Enter a pattern to generate code</pre>
                     </div>
                 </div>
             </div>
 
-            <div class="pattern-tester">
-                <h2>Pattern Tester</h2>
-                <div class="tester-container">
-                    <div class="pattern-input">
-                        <label for="pattern">Pattern:</label>
-                        <input type="text" id="pattern" placeholder="Enter regex pattern (without / /)" value="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}" aria-describedby="pattern-desc">
-                        <small id="pattern-desc">Enter the regex pattern as you would in the HTML pattern attribute.</small>
-                    </div>
-                    <div class="test-input">
-                        <label for="test-text">Test Text:</label>
-                        <input type="text" id="test-text" placeholder="Enter text to test against pattern" value="test@example.com">
-                    </div>
-                    <div class="result-container" aria-live="polite">
-                        <p>Valid: <span id="validity-result" class="valid">True</span></p>
-                        <p>Explanation: <span id="explanation" class="valid-text">Valid email format</span></p>
+            <!-- Right: Capture Groups & Reference -->
+            <div class="space-y-6">
+                <!-- Capture Groups -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Capture Groups</h2>
+                    <div id="capture-groups" class="space-y-3">
+                        <p class="text-sm text-gray-500">No capture groups in this pattern</p>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <section class="cheat-sheet" aria-label="Pattern Cheat Sheet">
-            <h2>Pattern Cheat Sheet</h2>
-            <div class="cheat-sheet-grid">
-                <div class="cheat-sheet-card">
-                    <h3>Email Validation</h3>
-                    <code>[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$</code>
-                    <p>Matches standard email format like: example@domain.com</p>
-                    <div class="card-actions">
-                        <button class="try-it" data-pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">Try it</button>
-                        <button class="copy-btn">Copy</button>
+                <!-- Quick Reference -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Quick Reference</h2>
+                    <div class="space-y-4 text-sm">
+                        <div>
+                            <h4 class="font-medium text-gray-700 mb-2">Characters</h4>
+                            <ul class="space-y-1 text-gray-600">
+                                <li><code class="bg-gray-100 px-1 rounded">.</code> Any character</li>
+                                <li><code class="bg-gray-100 px-1 rounded">\d</code> Digit [0-9]</li>
+                                <li><code class="bg-gray-100 px-1 rounded">\w</code> Word char</li>
+                                <li><code class="bg-gray-100 px-1 rounded">\s</code> Whitespace</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-700 mb-2">Quantifiers</h4>
+                            <ul class="space-y-1 text-gray-600">
+                                <li><code class="bg-gray-100 px-1 rounded">*</code> Zero or more</li>
+                                <li><code class="bg-gray-100 px-1 rounded">+</code> One or more</li>
+                                <li><code class="bg-gray-100 px-1 rounded">?</code> Zero or one</li>
+                                <li><code class="bg-gray-100 px-1 rounded">{n,m}</code> Between n and m</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-700 mb-2">Anchors</h4>
+                            <ul class="space-y-1 text-gray-600">
+                                <li><code class="bg-gray-100 px-1 rounded">^</code> Start of string</li>
+                                <li><code class="bg-gray-100 px-1 rounded">$</code> End of string</li>
+                                <li><code class="bg-gray-100 px-1 rounded">\b</code> Word boundary</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-700 mb-2">Groups</h4>
+                            <ul class="space-y-1 text-gray-600">
+                                <li><code class="bg-gray-100 px-1 rounded">(abc)</code> Capturing</li>
+                                <li><code class="bg-gray-100 px-1 rounded">(?:abc)</code> Non-capturing</li>
+                                <li><code class="bg-gray-100 px-1 rounded">(?&lt;name&gt;abc)</code> Named</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="cheat-sheet-card">
-                    <h3>Phone Number (10 digits)</h3>
-                    <code>[0-9]{10}</code>
-                    <p>Matches 10 digit numbers without spaces or dashes</p>
-                    <div class="card-actions">
-                        <button class="try-it" data-pattern="[0-9]{10}">Try it</button>
-                        <button class="copy-btn">Copy</button>
-                    </div>
-                </div>
-                <div class="cheat-sheet-card">
-                    <h3>Phone with Format</h3>
-                    <code>\(\d{3}\) \d{3}-\d{4}</code>
-                    <p>Matches phone format: (123) 456-7890</p>
-                    <div class="card-actions">
-                        <button class="try-it" data-pattern="\(\d{3}\) \d{3}-\d{4}">Try it</button>
-                        <button class="copy-btn">Copy</button>
-                    </div>
-                </div>
-                <div class="cheat-sheet-card">
-                    <h3>Date (DD/MM/YYYY)</h3>
-                    <code>(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\d{4}</code>
-                    <p>Matches dates in format: 25/12/2023</p>
-                    <div class="card-actions">
-                        <button class="try-it" data-pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\d{4}">Try it</button>
-                        <button class="copy-btn">Copy</button>
-                    </div>
-                </div>
-                <div class="cheat-sheet-card">
-                    <h3>Date (YYYY-MM-DD)</h3>
-                    <code>\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])</code>
-                    <p>Matches ISO date format: 2023-12-25</p>
-                    <div class="card-actions">
-                        <button class="try-it" data-pattern="\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])">Try it</button>
-                        <button class="copy-btn">Copy</button>
-                    </div>
-                </div>
-                <div class="cheat-sheet-card">
-                    <h3>Time (24 hour)</h3>
-                    <code>([01][0-9]|2[0-3]):[0-5][0-9]</code>
-                    <p>Matches 24-hour time format: 14:30</p>
-                    <div class="card-actions">
-                        <button class="try-it" data-pattern="([01][0-9]|2[0-3]):[0-5][0-9]">Try it</button>
-                        <button class="copy-btn">Copy</button>
-                    </div>
-                </div>
-                <div class="cheat-sheet-card">
-                    <h3>Time (12 hour)</h3>
-                    <code>(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)</code>
-                    <p>Matches 12-hour format: 02:30 PM</p>
-                    <div class="card-actions">
-                        <button class="try-it" data-pattern="(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)">Try it</button>
-                        <button class="copy-btn">Copy</button>
-                    </div>
-                </div>
-                <div class="cheat-sheet-card">
-                    <h3>URL</h3>
-                    <code>https?://[a-z0-9.-]+\.[a-z]{2,}</code>
-                    <p>Matches URLs like: https://example.com</p>
-                    <div class="card-actions">
-                        <button class="try-it" data-pattern="https?://[a-z0-9.-]+\.[a-z]{2,}">Try it</button>
-                        <button class="copy-btn">Copy</button>
-                    </div>
-                </div>
-                <div class="cheat-sheet-card">
-                    <h3>Password (Strong)</h3>
-                    <code>(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}</code>
-                    <p>Requires at least 8 chars with lowercase, uppercase and number</p>
-                    <div class="card-actions">
-                        <button class="try-it" data-pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">Try it</button>
-                        <button class="copy-btn">Copy</button>
-                    </div>
-                </div>
-                <div class="cheat-sheet-card">
-                    <h3>Username</h3>
-                    <code>[a-zA-Z0-9_-]{3,16}</code>
-                    <p>3-16 characters, letters, numbers, underscore, hyphen</p>
-                    <div class="card-actions">
-                        <button class="try-it" data-pattern="[a-zA-Z0-9_-]{3,16}">Try it</button>
-                        <button class="copy-btn">Copy</button>
-                    </div>
-                </div>
-                <div class="cheat-sheet-card">
-                    <h3>Hex Color Code</h3>
-                    <code>#[a-fA-F0-9]{6}</code>
-                    <p>Matches hex color codes like: #FF5733</p>
-                    <div class="card-actions">
-                        <button class="try-it" data-pattern="#[a-fA-F0-9]{6}">Try it</button>
-                        <button class="copy-btn">Copy</button>
-                    </div>
-                </div>
-                <div class="cheat-sheet-card">
-                    <h3>IP Address</h3>
-                    <code>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)</code>
-                    <p>Matches IP addresses like: 192.168.1.1</p>
-                    <div class="card-actions">
-                        <button class="try-it" data-pattern="((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)">Try it</button>
-                        <button class="copy-btn">Copy</button>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <section class="regex-guide" aria-label="Regex Quick Reference">
-            <h2>Regex Quick Reference</h2>
-            <div class="guide-grid">
-                <div class="guide-card">
-                    <h3>Character Classes</h3>
-                    <ul>
-                        <li><code>.</code> - Any character except newline</li>
-                        <li><code>\d</code> - Digit (0-9)</li>
-                        <li><code>\w</code> - Word character (a-z, A-Z, 0-9, _)</li>
-                        <li><code>\s</code> - Whitespace (space, tab, newline)</li>
-                        <li><code>[abc]</code> - Any of the characters a, b, or c</li>
-                        <li><code>[^abc]</code> - Any character except a, b, or c</li>
-                        <li><code>[a-z]</code> - Any character from a to z</li>
-                    </ul>
-                </div>
-                <div class="guide-card">
-                    <h3>Quantifiers</h3>
-                    <ul>
-                        <li><code>*</code> - 0 or more occurrences</li>
-                        <li><code>+</code> - 1 or more occurrences</li>
-                        <li><code>?</code> - 0 or 1 occurrence</li>
-                        <li><code>{n}</code> - Exactly n occurrences</li>
-                        <li><code>{n,}</code> - n or more occurrences</li>
-                        <li><code>{n,m}</code> - Between n and m occurrences</li>
-                    </ul>
-                </div>
-                <div class="guide-card">
-                    <h3>Anchors & Boundaries</h3>
-                    <ul>
-                        <li><code>^</code> - Start of string</li>
-                        <li><code>$</code> - End of string</li>
-                        <li><code>\b</code> - Word boundary</li>
-                    </ul>
-                </div>
-                <div class="guide-card">
-                    <h3>Groups & Alternation</h3>
-                    <ul>
-                        <li><code>(abc)</code> - Capture group</li>
-                        <li><code>a|b</code> - Match a or b</li>
-                        <li><code>(?:abc)</code> - Non-capturing group</li>
-                    </ul>
+                <!-- Common Patterns -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Common Patterns</h2>
+                    <div class="space-y-2">
+                        <button onclick="loadPattern('email')" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">Email</button>
+                        <button onclick="loadPattern('phone')" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">Phone Number</button>
+                        <button onclick="loadPattern('url')" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">URL</button>
+                        <button onclick="loadPattern('ip')" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">IP Address</button>
+                        <button onclick="loadPattern('date')" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">Date (YYYY-MM-DD)</button>
+                        <button onclick="loadPattern('hex')" class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">Hex Color</button>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 
-    <footer>
-        <p>Created for educational purposes - Learn more about <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern" target="_blank">HTML pattern attribute</a></p>
-        <p>Created for COS10026 - Web Development and Design at Swinburne University</p>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-10 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col items-center gap-4 text-center">
+                <div class="flex items-center gap-3">
+                    <img src="assets/logo.svg" alt="Input Pattern Tester" class="h-8 w-8 brightness-200">
+                    <span class="text-white font-semibold">Input Pattern Tester</span>
+                </div>
+                <p class="text-sm">Made with ❤️ for COS10026 @ Swinburne</p>
+                <a href="https://github.com/Arziel1992/input-pattern-tester" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                    </svg>
+                    <span>View on GitHub</span>
+                </a>
+            </div>
+        </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Info Modal -->
+    <div id="info-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-2xl max-h-full">
+            <div class="relative bg-white rounded-lg shadow">
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                    <h3 id="modal-title" class="text-xl font-semibold text-gray-900"></h3>
+                    <button type="button" onclick="closeModal()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center">
+                        <svg class="w-3 h-3" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="modal-content" class="p-4 md:p-5 space-y-4 text-gray-600"></div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-backdrop" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-40" onclick="closeModal()"></div>
+
+    <!-- Flowbite JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+    <!-- Main Application Script -->
+    <script src="assets/js/main.js"></script>
 </body>
 
 </html>

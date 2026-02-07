@@ -1,0 +1,74 @@
+/* Input Pattern Tester - Main Styles */
+
+/* Prevent layout shift from scrollbar */
+html {
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+}
+
+/* Match highlighting */
+.match-highlight {
+    background-color: rgba(2, 143, 0, 0.3);
+    border-bottom: 2px solid #028f00;
+    border-radius: 2px;
+    padding: 1px 0;
+}
+
+.match-highlight-alt {
+    background-color: rgba(59, 130, 246, 0.3);
+    border-bottom: 2px solid #3b82f6;
+    border-radius: 2px;
+    padding: 1px 0;
+}
+
+/* Test text container */
+.test-text-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    word-break: break-word;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 8px;
+    min-height: 120px;
+}
+
+/* Code block */
+.code-block {
+    background: #1e293b;
+    color: #e2e8f0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+/* Capture group colors */
+.capture-group-0 {
+    background-color: rgba(2, 143, 0, 0.2);
+    border-left: 3px solid #028f00;
+}
+
+.capture-group-1 {
+    background-color: rgba(59, 130, 246, 0.2);
+    border-left: 3px solid #3b82f6;
+}
+
+.capture-group-2 {
+    background-color: rgba(168, 85, 247, 0.2);
+    border-left: 3px solid #a855f7;
+}
+
+.capture-group-3 {
+    background-color: rgba(249, 115, 22, 0.2);
+    border-left: 3px solid #f97316;
+}
+
+.capture-group-4 {
+    background-color: rgba(236, 72, 153, 0.2);
+    border-left: 3px solid #ec4899;
+}

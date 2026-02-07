@@ -1,0 +1,135 @@
+{
+    "app": {
+        "name": "Probador de Patrones",
+        "tagline": "Prueba, valida y comprende expresiones regulares",
+        "description": "Probador de regex interactivo con resaltado de coincidencias y visualización de grupos de captura"
+    },
+    "nav": {
+        "home": "Probador de Patrones",
+        "language": "Idioma"
+    },
+    "tester": {
+        "title": "Probador de Patrones Regex",
+        "pattern": {
+            "label": "Patrón",
+            "placeholder": "Ingresa tu patrón regex..."
+        },
+        "test_text": {
+            "label": "Texto de Prueba",
+            "placeholder": "Ingresa texto para probar..."
+        },
+        "flags": {
+            "title": "Banderas",
+            "global": "Global (g)",
+            "case_insensitive": "Sin distinción de mayúsculas (i)",
+            "multiline": "Multilínea (m)",
+            "dotall": "DotAll (s)",
+            "unicode": "Unicode (u)"
+        },
+        "flavor": {
+            "title": "Tipo de Regex",
+            "javascript": "JavaScript",
+            "python": "Python",
+            "pcre": "PCRE"
+        },
+        "results": {
+            "title": "Resultados",
+            "matches": "Coincidencias",
+            "no_matches": "No se encontraron coincidencias",
+            "match_count": "{{count}} coincidencia(s) encontrada(s)"
+        },
+        "capture_groups": {
+            "title": "Grupos de Captura",
+            "group": "Grupo",
+            "full_match": "Coincidencia Completa",
+            "named": "Grupos con Nombre",
+            "no_groups": "No hay grupos de captura en este patrón"
+        },
+        "replace": {
+            "title": "Modo Reemplazo",
+            "replacement": "Reemplazo",
+            "replacement_placeholder": "Ingresa patrón de reemplazo...",
+            "result": "Resultado",
+            "toggle": "Activar Modo Reemplazo"
+        },
+        "code": {
+            "title": "Generación de Código",
+            "javascript": "JavaScript",
+            "python": "Python",
+            "php": "PHP",
+            "copy": "Copiar",
+            "copied": "¡Copiado!"
+        },
+        "valid": "Patrón válido",
+        "invalid": "Patrón inválido"
+    },
+    "cheatsheet": {
+        "title": "Patrones Comunes",
+        "categories": {
+            "email": "Correo Electrónico",
+            "phone": "Número de Teléfono",
+            "url": "URL",
+            "ip": "Dirección IP",
+            "date": "Fecha (AAAA-MM-DD)",
+            "password": "Contraseña Fuerte",
+            "username": "Nombre de Usuario",
+            "credit_card": "Tarjeta de Crédito",
+            "hex_color": "Color Hexadecimal",
+            "postal_code": "Código Postal"
+        },
+        "try_it": "Probar",
+        "copy": "Copiar"
+    },
+    "reference": {
+        "title": "Referencia Rápida",
+        "sections": {
+            "characters": {
+                "title": "Caracteres",
+                "items": {
+                    "dot": ". - Cualquier carácter",
+                    "digit": "\\d - Dígito [0-9]",
+                    "non_digit": "\\D - No dígito",
+                    "word": "\\w - Carácter de palabra [a-zA-Z0-9_]",
+                    "non_word": "\\W - Carácter no de palabra",
+                    "whitespace": "\\s - Espacio en blanco",
+                    "non_whitespace": "\\S - No espacio en blanco"
+                }
+            },
+            "quantifiers": {
+                "title": "Cuantificadores",
+                "items": {
+                    "zero_or_more": "* - Cero o más",
+                    "one_or_more": "+ - Uno o más",
+                    "zero_or_one": "? - Cero o uno",
+                    "exactly_n": "{n} - Exactamente n veces",
+                    "n_or_more": "{n,} - n o más veces",
+                    "between": "{n,m} - Entre n y m"
+                }
+            },
+            "anchors": {
+                "title": "Anclas",
+                "items": {
+                    "start": "^ - Inicio de cadena",
+                    "end": "$ - Fin de cadena",
+                    "word_boundary": "\\b - Límite de palabra",
+                    "non_word_boundary": "\\B - No límite de palabra"
+                }
+            },
+            "groups": {
+                "title": "Grupos",
+                "items": {
+                    "capturing": "(abc) - Grupo de captura",
+                    "non_capturing": "(?:abc) - Sin captura",
+                    "named": "(?<nombre>abc) - Grupo con nombre",
+                    "lookahead": "(?=abc) - Lookahead positivo",
+                    "negative_lookahead": "(?!abc) - Lookahead negativo"
+                }
+            }
+        }
+    },
+    "common": {
+        "back_home": "Volver al Inicio",
+        "footer": "Hecho con ❤️ para COS10026 @ Swinburne",
+        "view_on_github": "Ver en GitHub"
+    }
+}

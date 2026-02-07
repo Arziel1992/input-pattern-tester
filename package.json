@@ -1,0 +1,19 @@
+{
+    "name": "input-pattern-tester",
+    "version": "2026.02.07-2251",
+    "description": "Interactive regex pattern tester with real-time match highlighting and capture group visualization",
+    "type": "module",
+    "scripts": {
+        "dev": "npx serve ."
+    },
+    "keywords": [
+        "regex",
+        "pattern",
+        "tester",
+        "regular-expressions",
+        "validation",
+        "interactive"
+    ],
+    "author": "",
+    "license": "MIT"
+}

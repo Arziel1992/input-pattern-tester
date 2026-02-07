@@ -1,0 +1,135 @@
+{
+    "app": {
+        "name": "Input Pattern Tester",
+        "tagline": "Test, validate, and understand regular expressions",
+        "description": "Interactive regex tester with match highlighting and capture group visualization"
+    },
+    "nav": {
+        "home": "Pattern Tester",
+        "language": "Language"
+    },
+    "tester": {
+        "title": "Regex Pattern Tester",
+        "pattern": {
+            "label": "Pattern",
+            "placeholder": "Enter your regex pattern..."
+        },
+        "test_text": {
+            "label": "Test Text",
+            "placeholder": "Enter text to test against..."
+        },
+        "flags": {
+            "title": "Flags",
+            "global": "Global (g)",
+            "case_insensitive": "Case Insensitive (i)",
+            "multiline": "Multiline (m)",
+            "dotall": "DotAll (s)",
+            "unicode": "Unicode (u)"
+        },
+        "flavor": {
+            "title": "Regex Flavor",
+            "javascript": "JavaScript",
+            "python": "Python",
+            "pcre": "PCRE"
+        },
+        "results": {
+            "title": "Results",
+            "matches": "Matches",
+            "no_matches": "No matches found",
+            "match_count": "{{count}} match(es) found"
+        },
+        "capture_groups": {
+            "title": "Capture Groups",
+            "group": "Group",
+            "full_match": "Full Match",
+            "named": "Named Groups",
+            "no_groups": "No capture groups in this pattern"
+        },
+        "replace": {
+            "title": "Replace Mode",
+            "replacement": "Replacement",
+            "replacement_placeholder": "Enter replacement pattern...",
+            "result": "Result",
+            "toggle": "Enable Replace Mode"
+        },
+        "code": {
+            "title": "Code Generation",
+            "javascript": "JavaScript",
+            "python": "Python",
+            "php": "PHP",
+            "copy": "Copy",
+            "copied": "Copied!"
+        },
+        "valid": "Valid pattern",
+        "invalid": "Invalid pattern"
+    },
+    "cheatsheet": {
+        "title": "Common Patterns",
+        "categories": {
+            "email": "Email",
+            "phone": "Phone Number",
+            "url": "URL",
+            "ip": "IP Address",
+            "date": "Date (YYYY-MM-DD)",
+            "password": "Strong Password",
+            "username": "Username",
+            "credit_card": "Credit Card",
+            "hex_color": "Hex Color",
+            "postal_code": "Postal Code"
+        },
+        "try_it": "Try it",
+        "copy": "Copy"
+    },
+    "reference": {
+        "title": "Quick Reference",
+        "sections": {
+            "characters": {
+                "title": "Characters",
+                "items": {
+                    "dot": ". - Any character",
+                    "digit": "\\d - Digit [0-9]",
+                    "non_digit": "\\D - Non-digit",
+                    "word": "\\w - Word char [a-zA-Z0-9_]",
+                    "non_word": "\\W - Non-word char",
+                    "whitespace": "\\s - Whitespace",
+                    "non_whitespace": "\\S - Non-whitespace"
+                }
+            },
+            "quantifiers": {
+                "title": "Quantifiers",
+                "items": {
+                    "zero_or_more": "* - Zero or more",
+                    "one_or_more": "+ - One or more",
+                    "zero_or_one": "? - Zero or one",
+                    "exactly_n": "{n} - Exactly n times",
+                    "n_or_more": "{n,} - n or more times",
+                    "between": "{n,m} - Between n and m"
+                }
+            },
+            "anchors": {
+                "title": "Anchors",
+                "items": {
+                    "start": "^ - Start of string",
+                    "end": "$ - End of string",
+                    "word_boundary": "\\b - Word boundary",
+                    "non_word_boundary": "\\B - Non-word boundary"
+                }
+            },
+            "groups": {
+                "title": "Groups",
+                "items": {
+                    "capturing": "(abc) - Capturing group",
+                    "non_capturing": "(?:abc) - Non-capturing",
+                    "named": "(?<name>abc) - Named group",
+                    "lookahead": "(?=abc) - Positive lookahead",
+                    "negative_lookahead": "(?!abc) - Negative lookahead"
+                }
+            }
+        }
+    },
+    "common": {
+        "back_home": "Back to Home",
+        "footer": "Made with ❤️ for COS10026 @ Swinburne",
+        "view_on_github": "View on GitHub"
+    }
+}
