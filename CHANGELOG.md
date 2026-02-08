@@ -2,6 +2,21 @@
 
 All notable changes to Input Pattern Tester will be documented in this file.
 
+## [v2026-02-07-2308] 2026-02-07 - 23:08
+
+### Changed
+
+- **BREAKING**: Replaced Tailwind CDN with production-ready CLI build
+- Enhanced i18n system to dynamically apply translations to DOM elements
+- Added data-i18n attributes to title and pattern labels for Spanish translation
+- Consolidated all styles into src/input.css for centralized theming
+
+### Added
+
+- `npm run build` compiles Tailwind CSS to assets/css/main.css
+- `npm run watch` for development with hot reload
+- Added devDependencies: tailwindcss@^4.0.6, flowbite@^3.1.2, @tailwindcss/cli
+
 ## [v2026-02-07-2251] 2026-02-07 - 22:51
 
 ### Changed

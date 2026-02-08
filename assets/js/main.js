@@ -3,37 +3,66 @@
  * Interactive regex pattern tester with real-time match highlighting
  */
 
-// Open the combined flags modal
-window.openFlagsModal = function () {
-    document.getElementById('modal-title').textContent =
-        'Regex Flags Explained';
-    document.getElementById('modal-content').innerHTML = `
-        <div class="space-y-4">
-            <div class="p-3 bg-gray-50 rounded-lg">
-                <h4 class="font-semibold text-gray-900 mb-1"><code class="bg-primary-100 text-primary-700 px-1 rounded">g</code> Global</h4>
-                <p class="text-sm">Find all matches in the string, not just the first one.</p>
-            </div>
-            <div class="p-3 bg-gray-50 rounded-lg">
-                <h4 class="font-semibold text-gray-900 mb-1"><code class="bg-primary-100 text-primary-700 px-1 rounded">i</code> Case Insensitive</h4>
-                <p class="text-sm">Match regardless of letter case. <code>/hello/i</code> matches "Hello", "HELLO", etc.</p>
-            </div>
-            <div class="p-3 bg-gray-50 rounded-lg">
-                <h4 class="font-semibold text-gray-900 mb-1"><code class="bg-primary-100 text-primary-700 px-1 rounded">m</code> Multiline</h4>
-                <p class="text-sm"><code>^</code> and <code>$</code> match the start/end of each line, not just the whole string.</p>
-            </div>
-            <div class="p-3 bg-gray-50 rounded-lg">
-                <h4 class="font-semibold text-gray-900 mb-1"><code class="bg-primary-100 text-primary-700 px-1 rounded">s</code> Dotall</h4>
-                <p class="text-sm">Makes <code>.</code> match newline characters as well as any other character.</p>
-            </div>
-            <div class="p-3 bg-gray-50 rounded-lg">
-                <h4 class="font-semibold text-gray-900 mb-1"><code class="bg-primary-100 text-primary-700 px-1 rounded">u</code> Unicode</h4>
-                <p class="text-sm">Enable full Unicode support, including surrogate pairs and <code>\\p{Letter}</code> escapes.</p>
-            </div>
-        </div>
-    `;
-    document.getElementById('info-modal').classList.remove('hidden');
-    document.getElementById('info-modal').classList.add('flex');
-    document.getElementById('modal-backdrop').classList.remove('hidden');
+// i18n - Initialize early so translations are available
+let currentLocale = localStorage.getItem('locale') || 'en';
+let translations = {};
+
+function getTranslation(key) {
+    const keys = key.split('.');
+    let value = translations;
+    for (const k of keys) {
+        if (value && typeof value === 'object' && k in value) {
+            value = value[k];
+        } else {
+            return key;
+        }
+    }
+    return value;
+}
+
+function applyTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const key = el.getAttribute('data-i18n');
+        const translation = getTranslation(key);
+        if (translation !== key) el.textContent = translation;
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        const translation = getTranslation(key);
+        if (translation !== key) el.placeholder = translation;
+    });
+}
+
+async function loadTranslations(locale) {
+    try {
+        // Robust project root calculation
+        const getProjectRoot = () => {
+            const path = window.location.pathname;
+            // Since this JS is always in assets/js, we look for the pattern-tester directory root
+            if (path.includes('/assets/js/'))
+                return path.split('/assets/js/')[0] + '/';
+            if (path.endsWith('.html'))
+                return path.substring(0, path.lastIndexOf('/') + 1);
+            return path.endsWith('/') ? path : path + '/';
+        };
+        const root = getProjectRoot();
+        const response = await fetch(`${root}locales/${locale}.json`);
+        translations = await response.json();
+        document.getElementById('current-lang').textContent =
+            locale.toUpperCase();
+        applyTranslations();
+        // Re-render dynamic content
+        if (typeof updateMatches === 'function') updateMatches();
+        if (typeof updateReplace === 'function') updateReplace();
+    } catch (e) {
+        console.error('Failed to load translations:', e);
+    }
+}
+
+window.setLanguage = function (locale) {
+    currentLocale = locale;
+    localStorage.setItem('locale', locale);
+    loadTranslations(locale);
 };
 
 // Close modal
@@ -112,11 +141,9 @@ function updateMatches() {
     updateFlagsDisplay();
 
     if (!pattern) {
-        matchesDisplay.innerHTML =
-            '<span class="text-gray-400">No matches found</span>';
+        matchesDisplay.innerHTML = `<span class="text-gray-400">${getTranslation('tester.results.no_matches')}</span>`;
         matchCount.textContent = '0';
-        captureGroups.innerHTML =
-            '<p class="text-sm text-gray-500">No capture groups in this pattern</p>';
+        captureGroups.innerHTML = `<p class="text-sm text-gray-500">${getTranslation('tester.capture_groups.no_groups')}</p>`;
         patternStatus.classList.add('hidden');
         updateCodeGeneration();
         return;
@@ -136,9 +163,8 @@ function updateMatches() {
         if (matches.length === 0) {
             matchesDisplay.innerHTML =
                 escapeHtml(text) ||
-                '<span class="text-gray-400">No matches found</span>';
-            captureGroups.innerHTML =
-                '<p class="text-sm text-gray-500">No capture groups in this pattern</p>';
+                `<span class="text-gray-400">${getTranslation('tester.results.no_matches')}</span>`;
+            captureGroups.innerHTML = `<p class="text-sm text-gray-500">${getTranslation('tester.capture_groups.no_groups')}</p>`;
         } else {
             let result = '';
             let lastIndex = 0;
@@ -190,8 +216,7 @@ function updateReplace() {
     const text = testTextInput.value;
     const replacement = replaceInput.value;
     if (!pattern || !text) {
-        replaceResult.innerHTML =
-            '<span class="text-gray-400">Enter replacement string</span>';
+        replaceResult.innerHTML = `<span class="text-gray-400">${getTranslation('tester.replace.replacement_placeholder')}</span>`;
         return;
     }
     try {
@@ -278,18 +303,31 @@ replaceInput.addEventListener('input', updateReplace);
 // Initialize
 updateMatches();
 
-// i18n
-let currentLocale = localStorage.getItem('locale') || 'en';
-async function loadTranslations(locale) {
-    try {
-        await fetch(`locales/${locale}.json`);
-        document.getElementById('current-lang').textContent =
-            locale.toUpperCase();
-    } catch (e) {}
-}
-window.setLanguage = function (locale) {
-    currentLocale = locale;
-    localStorage.setItem('locale', locale);
-    loadTranslations(locale);
+// openModal with i18n support
+window.openModal = function (property) {
+    const title = getTranslation(`tester.${property}.title`);
+    let content = '<ul class="list-disc pl-5 space-y-2">';
+    if (property === 'flags') {
+        const flags = [
+            'global',
+            'case_insensitive',
+            'multiline',
+            'dotall',
+            'unicode',
+        ];
+        const flagChars = ['g', 'i', 'm', 's', 'u'];
+        flags.forEach((f, i) => {
+            content += `<li><strong>${flagChars[i]}</strong>: ${getTranslation(`tester.flags.${f}`)}</li>`;
+        });
+    }
+    content += '</ul>';
+
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-content').innerHTML = content;
+    document.getElementById('info-modal').classList.remove('hidden');
+    document.getElementById('info-modal').classList.add('flex');
+    document.getElementById('modal-backdrop').classList.remove('hidden');
 };
+
+// Load translations on startup
 loadTranslations(currentLocale);

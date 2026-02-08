@@ -1,6 +1,7 @@
 {
     "app": {
         "name": "Probador de Patrones",
+        "title": "Probador de Patrones Regex",
         "tagline": "Prueba, valida y comprende expresiones regulares",
         "description": "Probador de regex interactivo con resaltado de coincidencias y visualización de grupos de captura"
     },

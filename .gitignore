@@ -1,3 +1,4 @@
 .agent/
 .agents/
 RULES.md
+node_modules/

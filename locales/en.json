@@ -1,6 +1,7 @@
 {
     "app": {
         "name": "Input Pattern Tester",
+        "title": "Regex Pattern Tester",
         "tagline": "Test, validate, and understand regular expressions",
         "description": "Interactive regex tester with match highlighting and capture group visualization"
     },
